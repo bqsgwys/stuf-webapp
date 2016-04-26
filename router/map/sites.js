@@ -11,7 +11,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/',function(req,res){
-	client.get('sites',function(err,reply){
+	client.smembers('sites',function(err,reply){
 		res.send(reply);	
 	});
 });

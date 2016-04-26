@@ -10,7 +10,7 @@ var redis = require('redis');
 var router = express.Router();
 
 router.get("/",function(req,res){
-	client.get("categories", function(err, reply) {
+	client.smembers("categories", function(err, reply) {
 		res.send(reply);
 	});
 });
