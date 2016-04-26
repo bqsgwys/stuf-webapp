@@ -1,7 +1,6 @@
 var redis = require("redis"),
 		client = redis.createClient();
 var express = require('express');
-var redis = require('redis');
 var router = express.Router();
 var session=require('express-session');
 var cookie=require('cookie-parser');
@@ -15,6 +14,7 @@ router.use(session({
 	}),
 	secret: 'stuf'
 }));
+
 client.on("error", function (err) {
 		console.log("Error " + err);
 		});
@@ -26,40 +26,17 @@ router.use(function(req,res,next){
 		res.send({'error':'NotLoggedIn'});
 	}
 });
+
 router.get('/:user', function(req, res, next){
 	var user = req.params.user;
 	var site = req.session.sites;
 	var obj=user+'#'+site;
-	client.get(obj,function(ierr,reply){
-		var ct = site+'#count';
-		client.get(ct,function(derr,count){
-			client.set(ct,count+1);
-			client.get(site+'#score',function(terr,siscore){
-				client.get(user+'#score',function(ferr,usscore){
-					var total=usscore+siscore;
-					client.set(user+'#score',total);
-					client.get('topuser',function(eerr,topst){
-						var top=JSON.parse(topst);
-						for(var i=0;i<10;i++){
-							if(total>top[i.toString()].score){
-								for(var j=8;j>=i;j++){
-									var k=j+1;
-									top[k.toString()].score=top[j.toString()].score;
-									top[k.toString].name=top[j.toString()].name;
-								}
-								top[i.toString()].score=total;
-								top[i.toString()].name=user;
-							}
-						}
-						var strin=JSON.stringify(top);
-						if(strin!=topst){
-							client.set('topuser',strin);
-						}
-						if(reply) res.send(0);
-						else res.send(1);
-					});
-				});
-			});
+	client.hget(site,user+'.vote',function(ierr,reply){
+		client.hincrby(site,'count',1);
+		client.hget(site,'score',function(terr,siscore){
+			client.zadd('slist','INCR',siscore,user);
+			if(!reply) res.send(0);
+			else res.send(reply);
 		});
 	});
 });

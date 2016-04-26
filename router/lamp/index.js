@@ -4,18 +4,16 @@ client.on("error", function (err) {
 		console.log("Error " + err);
 		});
 var express = require('express');
-
 var bodyParser = require('body-parser');
-var redis = require('redis');
 var router = express.Router();
 
 
 router.get('/:user',function(req,res){
 	var user=req.params.user;
-	client.get(user+'#lamp',function(err,re){
+	client.hget('lamp',user,function(err,repl){
 		rest=[];
 		rest.lamp=undefined;
-		switch((repl+0)){
+		switch((repl)){
 			case 1:
 			rest=['red'];
 			break;

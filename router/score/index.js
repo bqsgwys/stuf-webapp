@@ -4,25 +4,25 @@ client.on("error", function (err) {
 		console.log("Error " + err);
 		});
 var express = require('express');
-var redis = require('redis');
 var router = express.Router();
 
 router.get('/:user',function(req,res){
 	var user=req.params.user;
-	client.get(user+'#score',function(err,reply){
+	client.zincrby('slist',0,user,function(err,reply){
 		var out={};
-		out['score']=+reply;
+		if(reply) out['score']=+parseInt(reply);
+		else out.score=0;
 		res.send(out);
 	});
 });
 router.get('/leaders/:numbers',function(req,res){
 	var num=(req.params.numbers+0);
-	if(num>10) num=10;
-	client.get('topuser',function(ferr,topst){
-		var top=JSON.parse(topst);
+	client.zrange('slist',0,num,'WITHSCORES',function(err,repl){
 		var rest={};
 		for(var i=0;i<num;i++){
-			rest[i.toString()]=top[i.toString()];
+			var key=repl[i*2];
+			var va=repl[i*2+1];
+			rest[key]=va;
 		}
 		res.send(rest);
 	});
