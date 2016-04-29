@@ -1,25 +1,10 @@
-var redis = require("redis"),
-		client = redis.createClient();
-var session=require('express-session');
-var cookie=require('cookie-parser');
-var RedisStore = require('connect-redis')(session);
+var client=require('./../lib/client');
 var express = require('express');
 var router = express.Router();
-
-
-router.use(session({
-	store: new RedisStore({
-		host: "127.0.0.1",	
-		port: 6379,
-		db: "session"
-	}),
-	secret: 'stuf'
-}));
-
-client.on("error", function (err) {
-		console.log("Error " + err);
-		});
-
+var session=require('./../lib/session');
+var bodyParser = require('body-parser');
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(session);
 router.use(function(req,res,next){
 	if(req.session.site){
 		next();

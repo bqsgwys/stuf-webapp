@@ -1,25 +1,11 @@
-var redis = require("redis"),
-		client = redis.createClient();
-var session=require('express-session');
-var cookie=require('cookie-parser');
-var RedisStore = require('connect-redis')(session);
+var client=require('./../lib/client');
 var express = require('express');
-var redis = require('redis');
-var bodyParser = require('body-parser');
 var router = express.Router();
+var session=require('./../lib/session');
+var bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));
-router.use(session({
-	store: new RedisStore({
-		host: "127.0.0.1",	
-		port: 6379,
-		db: "session"
-	}),
-	secret: 'stuf'
-}));
+router.use(session);
 
-client.on("error", function (err) {
-		console.log("Error " + err);
-		});
 
 router.get('/login',function(req,res){
 	if(req.session.site){ 
@@ -31,7 +17,7 @@ router.get('/login',function(req,res){
 	else{
 		var username=req.body.username;
 		var passwd=req.body.password;
-		client.get(username+'#inuse',function(err,reply){
+		client.hget(username,'inuse',function(err,reply){
 			if((reply+0)==1){
 				var rest={};
 				rest.success=false;
@@ -39,7 +25,7 @@ router.get('/login',function(req,res){
 				res.send(rest);
 			}
 			else{
-				client.get(username+'#passwd',function(er,pass){
+				client.hget(username,'passwd',function(er,pass){
 					if(pass!=passwd){
 						var rest={};
 						rest.success=false;
@@ -47,8 +33,8 @@ router.get('/login',function(req,res){
 						res.send(rest);
 					}
 					else{
-						client.get(username+'#site',function(error,sites){
-							client.set(username+'#inuse',1);
+						client.hget(username,'site',function(error,sites){
+							client.hset(username,'inuse',1);
 							req.session.site=sites;
 							req.session.user=username;
 							var rest={};

@@ -1,12 +1,7 @@
-var redis = require("redis"),
-		client = redis.createClient();
-client.on("error", function (err) {
-		console.log("Error " + err);
-		});
+var client=require('./../lib/client');
 var express = require('express');
 var bodyParser = require('body-parser');
 var router = express.Router();
-
 
 router.get('/:user',function(req,res){
 	var user=req.params.user;

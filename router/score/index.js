@@ -1,8 +1,4 @@
-var redis = require("redis"),
-		client = redis.createClient();
-client.on("error", function (err) {
-		console.log("Error " + err);
-		});
+var client=require('./../lib/client');
 var express = require('express');
 var router = express.Router();
 
