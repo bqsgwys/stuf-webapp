@@ -7,7 +7,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(session);
 
 
-router.get('/login',function(req,res){
+router.post('/login',function(req,res){
 	if(req.session.site){ 
 		var rest={};
 		rest.success=false;

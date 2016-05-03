@@ -12,10 +12,11 @@ router.get('/:user',function(req,res){
 	});
 });
 router.get('/leaders/:numbers',function(req,res){
-	var num=(req.params.numbers+0);
-	client.zrange('slist',0,num,'WITHSCORES',function(err,repl){
+	var num=parseInt(req.params.numbers);
+	num=0-num;
+	client.zrange('slist',num,-1,'WITHSCORES',function(err,repl){
 		var rest={};
-		for(var i=0;i<num;i++){
+		for(var i=0;i<0-num;i++){
 			var key=repl[i*2];
 			var va=repl[i*2+1];
 			rest[key]=va;

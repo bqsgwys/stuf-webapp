@@ -16,13 +16,13 @@ router.use(function(req,res,next){
 
 router.get('/:user', function(req, res, next){
 	var user = req.params.user;
-	var site = req.session.sites;
+	var site = req.session.site;
 	var obj=user+'#'+site;
 	client.hget(site,user+'.vote',function(ierr,reply){
 		client.hincrby(site,'count',1);
 		client.hget(site,'score',function(terr,siscore){
 			client.zadd('slist','INCR',siscore,user);
-			if(!reply) res.send(0);
+			if(!reply) res.send('0');
 			else res.send(reply);
 		});
 	});

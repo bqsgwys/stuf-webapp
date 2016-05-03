@@ -65,7 +65,7 @@ router.get('/perform/:user',function(req,res){
 });
 
 router.get('/:user',function(req,res){
-		var site=req.params.site;
+		var site=req.session.site;
 		var user=req.params.user;
 		client.hget(site,user+'.vote',function(err,re){
 			res.send(re);
@@ -77,8 +77,9 @@ router.get('/',function(req,res){
 		client.hget(site,'vote',function(err,vote){
 			client.hget(site,'dcount',function(error,dcnt){
 				var rest={};
-				rest.tot=vote+0;
-				rest.count=dcnt+0;
+				rest.tot=parseInt(vote);
+				rest.count=parseInt(dcnt);
+				res.send(rest);
 				});
 			});
 		});

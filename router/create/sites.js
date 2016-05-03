@@ -25,16 +25,11 @@ router.post('/',function(req,res,next){
 	var posi=req.body.position;
 	var desc=req.body.description;
 	var coor=req.body.coorination;
-	Promise.all([
-	(resa,rej)=>{client.sadd('cates',cate,(err,repl)=>{resa(repl)})},
-	(resa,rej)=>{client.sadd(cate,site,(err,repl)=>{resa(repl)})},
-	(resa,rej)=>{client.hmset(user,"inuse",0,'passwd',passwd,'site',site,(err,repl)=>{resa(repl)})},
-	(resa,rej)=>{client.hmset(site+"#info",'name',name,'class',clas,'category',cate,'position',posi,'description',desc,'coordination',coor,(err,repl)=>{resa(repl)})},
-	(resa,rej)=>{client.hmset(site,'vote',0,'count',0,'dcount',0,'score',scor,(err,repl)=>{resa(repl)})},
-	]).then(function(result){
-		res.send('success')
-	}).catch(function(error){
-		next(error);
-	});
+	client.sadd('cates',cate);
+	client.sadd(cate,site);
+	client.hmset(user,"inuse",0,'passwd',passwd,'site',site);
+	client.hmset(site+"#info",'name',name,'class',clas,'category',cate,'position',posi,'description',desc,'coordination',coor);
+	client.hmset(site,'vote',0,'count',0,'dcount',0,'score',scor);
+	res.send('success')
 });
 module.exports = router;

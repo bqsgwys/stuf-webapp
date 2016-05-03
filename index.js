@@ -7,12 +7,15 @@ var lamps =require('./router/lamp/index');
 var score=require('./router/score/index');
 var visit=require('./router/visit/index');
 var account=require('./router/account/index');
+var create=require('./router/create/index')
+
 app.use("/map",map);
 app.use("/visit",visit);
 app.use("/vote",vote);
 app.use("/lamps",lamps);
 app.use("/account",account);
 app.use("/score",score);
+app.use("/create",create);
 
 var server = app.listen(3000,function(){
 	var host=server.address().address;
