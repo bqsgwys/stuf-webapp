@@ -8,7 +8,9 @@ var mod=session({
 		port: 6379,
 		db: 1
 	}),
-	secret: 'stuf'
+	secret: 'stuf',
+	resave: 'false',
+	saveUninitialized: 'false'
 });
 
 module.exports = mod;

@@ -11,21 +11,19 @@ router.get('/',function(req,res,next){
         });
       });
     })).then(function(results){
-      return Promise.all(results.reduce(function(prev,elem){
+      var promises = results.reduce(function(prev,elem){
         var subpromises = elem.map(function(sites){
           return new Promise(function(resolve,reject){
-            client.hgetall(sites+'#info',function(errs,repl){
-              var rest = {};
-              for(var i=0;i<(repl.length/2);++i){
-                rest[repl[i*2]]=repl[i*2+1];
-              }
-              resolve(rest);
-            });
+            client.hgetall(sites+'#info',(errs,repl) => errs ? reject(err) : resolve(repl));
           });
         });
-        prev.concat(subpromises);
-      }, []));
+
+				return prev.concat(subpromises);
+      }, []);
+
+			return Promise.all(promises);
     }).then(function(result) {
+			console.log(result);
       res.send(result);
     }).catch(function(errors){
       return next(errors);
