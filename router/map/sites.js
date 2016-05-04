@@ -23,7 +23,6 @@ router.get('/',function(req,res,next){
 
 			return Promise.all(promises);
     }).then(function(result) {
-			console.log(result);
       res.send(result);
     }).catch(function(errors){
       return next(errors);
