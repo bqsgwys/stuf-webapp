@@ -1,6 +1,6 @@
 {
   "name": "stuf-web",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "backend of the web of student festival",
   "main": "index.js",
   "scripts": {
@@ -8,22 +8,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/willwoodwys/stuf-web.git"
+    "url": "git+https://github.com/bqsgwys/stuf-web.git"
   },
   "author": "bqsgwys",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/willwoodwys/stuf-web/issues"
+    "url": "https://github.com/bqsgwys/stuf-web/issues"
   },
-  "homepage": "https://github.com/willwoodwys/stuf-web#readme",
+  "homepage": "https://github.com/bqsgwys/stuf-web#readme",
   "dependencies": {
     "body-parser": "^1.15.0",
+    "connect-multiparty": "^2.0.0",
     "connect-redis": "^3.0.2",
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "fs": "0.0.2",
     "multer": "^1.1.0",
+    "node-csv-json": "^0.2.1",
     "redis": "^2.5.3"
   }
 }
