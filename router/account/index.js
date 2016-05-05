@@ -11,7 +11,7 @@ router.post('/login',function(req,res){
 	if(req.session.site){ 
 		var rest={};
 		rest.success=false;
-		setlog('server.log',site+' is trying to log in but failed for "AlreadyLoggedIn"')
+		setlog('server.log',req.session.site+' is trying to log in but failed for "AlreadyLoggedIn"')
 		rest.error='AlreadyLoggedIn';
 		res.send(rest);
 	}
@@ -23,7 +23,7 @@ router.post('/login',function(req,res){
 				var rest={};
 				rest.success=false;
 				rest.error='AccountInUse';
-				setlog('server.log',site+' is trying to log in but failed for AccountInUse"')
+				setlog('server.log',username+' is trying to log in but failed for AccountInUse"')
 				res.send(rest);
 			}
 			else{
@@ -32,7 +32,7 @@ router.post('/login',function(req,res){
 						var rest={};
 						rest.success=false;
 						rest.error='CredentialsRejected';
-						setlog('server.log',site+' is trying to log in but failed for "CredentialsRejected"')
+						setlog('server.log',username+' is trying to log in but failed for "CredentialsRejected"')
 						res.send(rest);
 					}
 					else{
@@ -42,7 +42,7 @@ router.post('/login',function(req,res){
 							req.session.user=username;
 							var rest={};
 							rest.success=true;
-							setlog('server.log',site+' is trying to log in and success')
+							setlog('server.log',username+' is trying to log in and success')
 							rest.site=sites;
 							res.send(rest);
 						});
