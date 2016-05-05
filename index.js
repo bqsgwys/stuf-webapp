@@ -1,5 +1,4 @@
 var express = require('express');
-var cors = require('cors');
 var fs = require('fs');
 var app = express();
 var map = require('./router/map/index');
@@ -11,8 +10,6 @@ var account=require('./router/account/index');
 var create=require('./router/create/index');
 var upload=require('./router/upload/index');
 
-app.use(cors());
-
 app.use("/map",map);
 app.use("/visit",visit);
 app.use("/vote",vote);
@@ -21,8 +18,6 @@ app.use("/account",account);
 app.use("/score",score);
 app.use("/create",create);
 app.use("/upload",upload);
-
-app.use(express.static(__dirname + "/public"));
 
 var server = app.listen(3000,function(){
 	var host=server.address().address;

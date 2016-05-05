@@ -24,10 +24,10 @@ router.post('/',function(req,res,next){
 	var cate=req.body.category;
 	var posi=req.body.position;
 	var desc=req.body.description;
-	var coor=req.body.coorination;
+	var coor=req.body.coordination;
 	client.sadd('cates',cate);
 	client.sadd(cate,site);
-	client.hmset(user,"inuse",0,'passwd',passwd,'site',site);
+	client.hmset(user,"inuse",0,'passwd',pass,'site',site);
 	client.hmset(site+"#info",'name',name,'class',clas,'category',cate,'position',posi,'description',desc,'coordination',coor);
 	client.hmset(site,'vote',0,'count',0,'dcount',0,'score',scor);
 	res.send('success');
