@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+}
+
+.hidden {
+  display: none;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 80px;
+  height: 80px;
+  width: 100%;
+}

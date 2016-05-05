@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>控制台 - SFS</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/dashboard.js"></script>
+  </head>
+  <body>
+    <div class="title">
+      学生节 在线统计系统
+    </div>
+    <div class="container hidden">
+      <button class="scan-btn">
+        新访客
+      </button>
+    </div>
+
+    <div class="voter hidden">
+      <div class="voter-title">
+        请为本活动评分
+        <div class="voter-name site-name"></div>
+        <div class="voter-stars">
+          <div class="voter-star" click="setVote(1)"></div>
+          <div class="voter-star" click="setVote(2)"></div>
+          <div class="voter-star" click="setVote(3)"></div>
+          <div class="voter-star" click="setVote(4)"></div>
+          <div class="voter-star" click="setVote(5)"></div>
+        </div>
+      </div>
+    </div>
+  </body>
