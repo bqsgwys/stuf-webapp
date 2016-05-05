@@ -21,40 +21,50 @@ router.get('/:user',function(req,res){
 			client.hincrby(site,'dcount',1);
 			client.hset(site,user+'.vote',vote);
 			client.hincrby(site,'vote',vote);
-			var rand=Math.random();
-			console.log(rand);
-      if(rand<=0.1){
-        client.hget('lamp',user,function(errs,repl){
-          rest.lamp=undefined;
-          if(!repl) {
-          repl=0;
-          }
-          repl++;
-          switch((repl)){
-            case 1:
-            rest.lamp='red';
-            break;
-            case 2:
-            rest.lamp='green';
-            break;
-            case 3:
-            rest.lamp='blue';
-            break;
-            case 4:
-            rest.lamp='yellow';
-            break;
-          }
-          rest.success=true;
-          client.set('lamp',user,repl);
-          res.send(rest);
-        });
-      }
-      else{
-        rest.lamp=undefined;
-        rest.success=true;
-        res.send(rest);
-      }
-	  }
+			client.hget(site,'vote',function(err,vote){
+				client.hget(site,'dcount',function(error,dcnt){
+					var rest={};
+					rest.tot=parseInt(vote);
+					rest.count=parseInt(dcnt);
+					res.send(rest);
+					var func= parseInt(vote)/parseInt(dcnt)+parseInt(dcnt)/500;
+					client.zadd('vlist',vote,func);
+					var rand=Math.random();
+					console.log(rand);
+					if(rand<=0.1){
+						client.hget('lamp',user,function(errs,repl){
+							rest.lamp=undefined;
+							if(!repl) {
+								repl=0;
+							}
+							repl++;
+							switch((repl)){
+								case 1:
+								rest.lamp='red';
+								break;
+								case 2:
+								rest.lamp='green';
+								break;
+								case 3:
+								rest.lamp='blue';
+								break;
+								case 4:
+								rest.lamp='yellow';
+								break;
+							}
+							rest.success=true;
+							client.hset('lamp',user,repl);
+							res.send(rest);
+						});
+					}
+					else{
+						rest.lamp=undefined;
+						rest.success=true;
+						res.send(rest);
+					}
+				});
+			});
+		}
 	});
 });
 module.exports = router;
