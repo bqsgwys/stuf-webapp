@@ -30,8 +30,8 @@ router.post('/',function(req,res,next){
 	client.sadd('cates',cate);
 	client.sadd(cate,site);
 	client.hmset(user,"inuse",0,'passwd',pass,'site',site);
-	client.hmset(site+"#info",'name',name,'class',clas,'category',cate,'position',posi,'description',desc,'coordination',coor);
-	client.hmset(site,'vote',0,'count',0,'dcount',0,'score',scor);
+	client.hmset(site+"#info",'name',name,'class',clas,'category',cate,'position',posi,'description',desc,'coordination',coor, 'score', scor);
+
 	setlog('server.log','add a site '+site+' to the database');
 	res.send('success');
 });

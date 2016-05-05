@@ -19,16 +19,53 @@ router.get('/',function(req,res,next){
           });
         });
 
-				return prev.concat(subpromises);
+        return prev.concat(subpromises);
       }, []);
 
-			return Promise.all(promises);
+      return Promise.all(promises);
     }).then(function(result) {
-			setlog('server.log','get all sites');
+      setlog('server.log','get all sites');
       res.send(result);
     }).catch(function(errors){
       return next(errors);
     });
+  });
+});
+
+router.get('/:id', function(req, res, next) {
+  client.hgetall(req.params.id + "#info", (err, replinfo) => {
+    if(err) return next(err);
+    else return res.send(replinfo);
+  });
+});
+
+router.get('/admin/:id', 
+function(req,res,next){
+  if(!req.session.site||req.session.site!="admin"){
+    setlog('server.log','{"error":" you\'ve not logged in ad administrator"}');
+    res.send({"error":" you've not logged in ad administrator"});
+  }
+  else{
+    next();
+  }
+},
+
+function(req, res, next) {
+  client.hgetall(req.params.id, (err, repl) => {
+    if(err) return next(err);
+
+    if(repl.name) {
+      // Is a site
+      client.hgetall(req.params.id + "#info", (err, replinfo) => {
+        if(err) return next(err);
+        else res.send({
+          info: replinfo,
+          data: repl
+        });
+      });
+    } else {
+      res.sendStatus(404);
+    }
   });
 });
 module.exports = router;

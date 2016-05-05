@@ -11,14 +11,14 @@
   </head>
   <body>
     <div class="title">
-      SFS - 管理
+      管理
     </div>
     <div class="container hidden">
       <button id="site-btn">
-        站点
+        站点列表
       </button>
       <button id="user-btn">
-        用户
+        站点修改
       </button>
       <button id="logout">
         登出
@@ -26,9 +26,31 @@
     </div>
 
     <div class="sites panel hidden">
+      <div class="placeholder">加载中...</div>
     </div>
 
     <div class="users panel hidden">
+      <div class="user-actions">
+        <input id="user-search-target" placeholder="修改 - 活动ID">
+        <button id="user-search">修改</button>
+        <button id="user-add">添加新活动</button>
+        <button id="user-upload">批量上传</button>
+      </div>
+
+      <div class="placeholder hidden" id="user-not-found">未找到该活动</div>
+      <div class="hidden" id="user-form">
+        <input id="user-username" placeholder="登录用户名">
+        <input id="user-password" placeholder="登录密码">
+        <input id="user-site" placeholder="活动 ID">
+        <input id="user-score" placeholder="参与分数">
+        <input id="user-class" placeholder="所属班级/社团">
+        <input id="user-category" placeholder="所属类别">
+        <input id="user-position" placeholder="地点">
+        <input id="user-description" placeholder="介绍">
+      </div>
+    </div>
+
+    <div class="user-edit hidden">
     </div>
   </body>
 </html>

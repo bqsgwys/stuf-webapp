@@ -119,3 +119,13 @@ button.pressed {
   font-size: 24px;
   margin-bottom: 20px;
 }
+
+.placeholder {
+  font-size: 14px;
+  line-height: 18px;
+  color: rgba(0,0,0,.54);
+}
+
+.panel {
+  margin-top: 20px;
+}
