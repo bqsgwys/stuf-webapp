@@ -76,13 +76,13 @@ router.get('/restore',function(req,res){
 	var rest={};
 	if(req.session.site){
 		rest.site=req.session.site;
-		setlog('server.log',site+' is trying to log in and success')
+		setlog('server.log',req.session.site+' is trying to log in and success')
 		rest.success=true;
 	}
 	else{
 		rest.success=false;
 		rest.error='NotLoggedIn';
-		setlog('server.log',site+' is trying to log in but failed for "NotLoggedIn"')
+		setlog('server.log',req.session.site+' is trying to log in but failed for "NotLoggedIn"')
 	}
 	res.send(rest);
 });
