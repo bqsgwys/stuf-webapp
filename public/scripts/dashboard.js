@@ -1,5 +1,3 @@
-var BACKEND = "http://192.168.100.135:3000"; // For testing
-
 function isWeiXin(){
   var ua = navigator.userAgent.toLowerCase();
   if(ua.match(/MicroMessenger/i)=="micromessenger") {
@@ -42,12 +40,14 @@ function showThanks() {
 var store;
 
 $(document).ready(function() {
-  $.get(BACKEND + '/account/restore')
+  $.get('/account/restore')
   .done(function(data) {
     if(!data.success) {
       // Assume that user is not logged in
+      //
+      console.log(data);
       
-      window.location.href="login.html"
+      //window.location.href="login.html"
     } else {
       $(".site-info").html(data.site);
       $(".container").removeClass("hidden");
@@ -63,7 +63,7 @@ $(document).ready(function() {
         
         store = res;
         
-        $.get(BACKEND + '/visit/' + res)
+        $.get('/visit/' + res)
         .done(function(data) {
           var prevVote = parseInt(data);
           if(prevVote != 0) {
@@ -86,7 +86,7 @@ $(document).ready(function() {
   });
 
   $(".voter-submit").click(function() {
-    $.get(BACKEND + '/vote/perform/' + store, {
+    $.get('/vote/perform/' + store, {
       score: score
     }).then(function(data) {
       if(!data.success) {
