@@ -25,6 +25,7 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "fs": "0.0.2",
+    "moment": "^2.13.0",
     "multer": "^1.1.0",
     "node-csv-json": "^0.2.1",
     "redis": "^2.5.3"

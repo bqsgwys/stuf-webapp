@@ -1,4 +1,5 @@
 var client=require('./../lib/client');
+var setlog=require('./../lib/log');
 var express = require('express');
 var router = express.Router();
 var session=require('./../lib/session');
@@ -7,7 +8,8 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(session);
 router.use(function(req,res,next){
 	if(!req.session.site||req.session.site!="admin"){
-		res.status(500).send("ERROR you've not logged in as admin");
+		setlog('server.log','{"error":" you\'ve not logged in ad administrator"}');
+		res.send({"error":" you've not logged in ad administrator"});
 	}
 	else{
 		next();

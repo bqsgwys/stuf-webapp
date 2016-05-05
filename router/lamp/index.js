@@ -1,5 +1,6 @@
 var client=require('./../lib/client');
 var express = require('express');
+var setlog=require('./../lib/log');
 var bodyParser = require('body-parser');
 var router = express.Router();
 
@@ -22,6 +23,7 @@ router.get('/:user',function(req,res){
 			rest=['red','green','blue','yellow'];
 			break;
 		}
+		setlog('server.log','get '+user+"'s lamps");
 		res.send(rest);
 	});
 });

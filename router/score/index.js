@@ -1,5 +1,6 @@
 var client=require('./../lib/client');
 var express = require('express');
+var setlog=require('./../lib/log');
 var router = express.Router();
 
 router.get('/:user',function(req,res){
@@ -8,6 +9,7 @@ router.get('/:user',function(req,res){
 		var out={};
 		if(reply) out['score']=+parseInt(reply);
 		else out.score=0;
+		setlog('server.log',"get "+user+"'s score")
 		res.send(out);
 	});
 });
@@ -21,6 +23,7 @@ router.get('/leaders/:numbers',function(req,res){
 			var va=repl[i*2+1];
 			rest[key]=va;
 		}
+		setlog('server.log','get '+(-num).toString()+' first score leader');
 		res.send(rest);
 	});
 });
