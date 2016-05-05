@@ -49,6 +49,11 @@ button {
   border-radius: 2px;
 
   background: rgba(0,0,0,.12);
+  margin-top: 20px;
+
+  cursor: pointer;
+
+  min-width: 160px;
 }
 
 .error {
@@ -71,4 +76,41 @@ button {
 .login-container {
   position: relative;
   text-align: center;
+}
+
+.voter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+  background: rgba(255,255,255,0.7);
+}
+
+.voter-content {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.voter-stars {
+  text-align: center;
+}
+
+.voter-star {
+  height: 36px;
+  width: 36px;
+  display: inline-block;
+
+  background-size: contain;
+}
+
+.voter-title {
+  font-weight: 100;
+  line-height: 36px;
+  font-size: 24px;
+  margin-bottom: 20px;
 }

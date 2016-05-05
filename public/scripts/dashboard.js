@@ -8,13 +8,18 @@ function isWeiXin(){
 }
 
 function getQRCodeResult(cb) {
-  wx.scanQRCode({
-    needResult: 1,
-    scanType: ["qrCode","barCode"],
-    success: function (res) {
-      cb(res.resultStr);
-    }
-  });
+  if(isWeiXin()) {
+    wx.scanQRCode({
+      needResult: 1,
+      scanType: ["qrCode","barCode"],
+      success: function (res) {
+        cb(res.resultStr);
+      }
+    });
+  } else {
+    alert("请使用微信浏览器");
+    cb("123457");
+  }
 }
 
 var voterLocked = false;
@@ -22,8 +27,8 @@ var score;
 function setVote(num) {
   if(voterLocked) return true;
   score = num;
-  $(".voter .stars").slice(prevVote, 5).css("background-image", "url('images/star_border.png')");
-  $(".voter .stars").slice(0, prevVote).css("background-image", "url('images/star_black.png')");
+  $(".voter .voter-star").slice(num, 5).css("background-image", "url('images/star_border.png')");
+  $(".voter .voter-star").slice(0, num).css("background-image", "url('images/star_black.png')");
 }
 
 function showLamp(lampId) {
@@ -44,7 +49,7 @@ $(document).ready(function() {
   .done(function(data) {
     if(!data.success) {
       // Assume that user is not logged in
-      //
+
       console.log(data);
       
       //window.location.href="login.html"
@@ -55,34 +60,32 @@ $(document).ready(function() {
   });
 
   $("#scan-btn").click(function() {
-    if(!isWeiXin) {
-      alert("不是微信浏览器。请使用微信浏览器打开。");
-    } else {
-      getQRCodeResult(function(res) {
-        // Invoke /visit API
-        
-        store = res;
-        
-        $.get('/visit/' + res)
-        .done(function(data) {
-          var prevVote = parseInt(data);
-          if(prevVote != 0) {
-            // Previously voted
-            setVote(prevVote);
-            voterLocked = true;
-            $(".voter-submit").hide();
+    getQRCodeResult(function(res) {
+      // Invoke /visit API
+      
+      store = res;
+      
+      $.get('/visit/' + res)
+      .done(function(data) {
+        var prevVote = parseInt(data);
+        if(prevVote != 0) {
+          // Previously voted
+          setVote(prevVote);
+          voterLocked = true;
+          $(".voter-submit").hide();
+          $(".voter-title").html("您已进行过评分");
 
-            $(".voter").show();
-          } else {
-            setVote(0);
-            voterLocked = false;
-            $(".voter-submit").show();
+          $(".voter").fadeIn(200);
+        } else {
+          setVote(3);
+          voterLocked = false;
+          $(".voter-submit").show();
+          $(".voter-title").html("请为本活动评分");
 
-            $(".voter").show();
-          }
-        });
+          $(".voter").fadeIn(200);
+        }
       });
-    }
+    });
   });
 
   $(".voter-submit").click(function() {
@@ -98,10 +101,22 @@ $(document).ready(function() {
       }
     });
 
-    $(".voter").hide();
+    $(".voter").fadeOut(200);
   });
 
   $(".voter-close").click(function() {
-    $(".voter").hide();
+    $(".voter").fadeOut(200);
+  });
+
+  $("#logout").click(function() {
+    $.get('/account/logout').done(function(data) {
+      if(data.success) window.location.href = 'login.html';
+      else if(data.error == "NotLoggedIn") {
+        alert("未登录");
+        window.location.href = 'login.html';
+      } else {
+        alert(data.error);
+      }
+    });
   });
 });

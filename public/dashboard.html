@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=false">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>控制台 - SFS</title>
     <link rel="stylesheet" href="styles/main.css">
     <script src="scripts/jquery.min.js"></script>
@@ -13,23 +13,30 @@
       SFS - 控制台
     </div>
     <div class="container hidden">
-      <button class="scan-btn">
+      <button id="scan-btn">
         新访客
-      </button>
+      </button><br>
       <button id="logout">
+        登出
       </button>
     </div>
 
     <div class="voter hidden">
-      <div class="voter-title">
-        请为本活动评分
+      <div class="voter-content">
+        <div class="voter-title">
+          请为本活动评分
+        </div>
         <div class="voter-name site-name"></div>
         <div class="voter-stars">
-          <div class="voter-star" click="setVote(1)"></div>
-          <div class="voter-star" click="setVote(2)"></div>
-          <div class="voter-star" click="setVote(3)"></div>
-          <div class="voter-star" click="setVote(4)"></div>
-          <div class="voter-star" click="setVote(5)"></div>
+          <div class="voter-star" onclick="setVote(1)"></div>
+          <div class="voter-star" onclick="setVote(2)"></div>
+          <div class="voter-star" onclick="setVote(3)"></div>
+          <div class="voter-star" onclick="setVote(4)"></div>
+          <div class="voter-star" onclick="setVote(5)"></div>
+        </div>
+        <div class="voter-actions">
+          <button class="voter-submit">提交</button>
+          <button class="voter-close">关闭</button>
         </div>
       </div>
     </div>
