@@ -17,9 +17,20 @@ router.use(function(req,res,next){
 
 router.use('/perform', perform);
 
-router.get('/leader/vote',function(req,res){
-	
+router.get('/leaders/:numbers',function(req,res){
+	var num=parseInt(req.params.numbers);
+	num=0-num;
+	client.zrange('vlist',num,-1,'WITHSCORES',function(err,repl){
+		var rest={};
+		for(var i=0;i<0-num;i++){
+			var key=repl[i*2];
+			var va=repl[i*2+1];
+			rest[key]=va;
+		}
+		res.send(rest);
+	});
 });
+
 
 router.get('/:user',function(req,res){
 		var site=req.session.site;
