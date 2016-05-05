@@ -1,4 +1,5 @@
 var client=require('./../lib/client');
+var setlog=require('./../lib/log');
 var express = require('express');
 var router = express.Router();
 var session=require('./../lib/session');
@@ -6,11 +7,11 @@ var bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(session);
 
-
 router.post('/login',function(req,res){
 	if(req.session.site){ 
 		var rest={};
 		rest.success=false;
+		setlog('server.log',site+' is trying to log in but failed for "AlreadyLoggedIn"')
 		rest.error='AlreadyLoggedIn';
 		res.send(rest);
 	}
@@ -22,6 +23,7 @@ router.post('/login',function(req,res){
 				var rest={};
 				rest.success=false;
 				rest.error='AccountInUse';
+				setlog('server.log',site+' is trying to log in but failed for AccountInUse"')
 				res.send(rest);
 			}
 			else{
@@ -30,6 +32,7 @@ router.post('/login',function(req,res){
 						var rest={};
 						rest.success=false;
 						rest.error='CredentialsRejected';
+						setlog('server.log',site+' is trying to log in but failed for "CredentialsRejected"')
 						res.send(rest);
 					}
 					else{
@@ -39,7 +42,8 @@ router.post('/login',function(req,res){
 							req.session.user=username;
 							var rest={};
 							rest.success=true;
-							rest.site=sites
+							setlog('server.log',site+' is trying to log in and success')
+							rest.site=sites;
 							res.send(rest);
 						});
 					}
@@ -56,12 +60,14 @@ router.get('/logout',function(req,res){
 	if(site){
 		req.session.destroy();
 		client.set(user+'#inuse',0);
+		setlog('server.log',site+' is trying to log out and success')
 		rest.success=true;
 	}
 	else{
 		var rest={};
 		rest.success=false;
 		rest.error='NotLoggedIn';
+		setlog('server.log',site+' is trying to log in but failed for "NotLoggedIn"')
 	}
 	res.send(rest);
 });
@@ -70,11 +76,13 @@ router.get('/restore',function(req,res){
 	var rest={};
 	if(req.session.site){
 		rest.site=req.session.site;
+		setlog('server.log',site+' is trying to log in and success')
 		rest.success=true;
 	}
 	else{
 		rest.success=false;
 		rest.error='NotLoggedIn';
+		setlog('server.log',site+' is trying to log in but failed for "NotLoggedIn"')
 	}
 	res.send(rest);
 });

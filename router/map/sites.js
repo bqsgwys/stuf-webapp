@@ -1,5 +1,6 @@
 var client=require('./../lib/client');
 var express = require('express');
+var setlog=require('./../lib/log');
 var router = express.Router();
 
 router.get('/',function(req,res,next){
@@ -23,6 +24,7 @@ router.get('/',function(req,res,next){
 
 			return Promise.all(promises);
     }).then(function(result) {
+			setlog('server.log','get all sites');
       res.send(result);
     }).catch(function(errors){
       return next(errors);

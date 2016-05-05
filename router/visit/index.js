@@ -2,6 +2,7 @@ var client=require('./../lib/client');
 var express = require('express');
 var router = express.Router();
 var session=require('./../lib/session');
+var setlog=require('./../lib/log');
 var bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(session);
@@ -10,6 +11,7 @@ router.use(function(req,res,next){
 		next();
 	}
 	else{
+		setlog('server.log',"vote"+"{'error':'NotLoggedIn'}")
 		res.send({'error':'NotLoggedIn'});
 	}
 });
@@ -22,6 +24,7 @@ router.get('/:user', function(req, res, next){
 		client.hincrby(site,'count',1);
 		client.hget(site,'score',function(terr,siscore){
 			client.zadd('slist','INCR',siscore,user);
+			setlog('server.log',user+" visits "+site);
 			if(!reply) res.send('0');
 			else res.send(reply);
 		});

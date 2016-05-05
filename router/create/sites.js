@@ -1,4 +1,5 @@
 var client=require('./../lib/client');
+var setlog=require('./../lib/log');
 var express = require('express');
 var router = express.Router();
 var session=require('./../lib/session');
@@ -7,7 +8,8 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(session);
 router.use(function(req,res,next){
 	if(!req.session.site||req.session.site!="admin"){
-		res.status(500).send("ERROR you've not logged in ad administrator");
+		setlog('server.log','{"error":" you\'ve not logged in ad administrator"}');
+		res.send({"error":" you've not logged in ad administrator"});
 	}
 	else{
 		next();
@@ -30,6 +32,7 @@ router.post('/',function(req,res,next){
 	client.hmset(user,"inuse",0,'passwd',pass,'site',site);
 	client.hmset(site+"#info",'name',name,'class',clas,'category',cate,'position',posi,'description',desc,'coordination',coor);
 	client.hmset(site,'vote',0,'count',0,'dcount',0,'score',scor);
+	setlog('server.log','add a site '+site+' to the database');
 	res.send('success');
 });
 module.exports = router;
