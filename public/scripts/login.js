@@ -39,15 +39,12 @@ $(document).ready(function() {
       password
     }).done(function(data) {
       if(data.success) {
-        window.location.href = "dashboard.html";
+        if(data.site == "admin")
+          window.location.href = "admin.html";
+        else
+          window.location.href = "dashboard.html";
       } else {
-        if(data.error == "CredentialsRejected") {
-          showError("凭证错误");
-          showError("a");
-          showError("b");
-          showError("c");
-          showError("d");
-        }
+        if(data.error == "CredentialsRejected") showError("凭证错误");
         else if(data.error == "AccountInUse") showError("此账户已在其它设备上登录");
         else if(data.error == "AlreadyLoggedIn") {
           window.location.href = "dashboard.html";

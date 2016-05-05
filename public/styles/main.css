@@ -49,11 +49,16 @@ button {
   border-radius: 2px;
 
   background: rgba(0,0,0,.12);
-  margin-top: 20px;
+  transition: background 0.1s ease;
+  margin: 10px 5px;
 
   cursor: pointer;
 
   min-width: 160px;
+}
+
+button.pressed {
+  background: rgba(0,0,0,.24);
 }
 
 .error {

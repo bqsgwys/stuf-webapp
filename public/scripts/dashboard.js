@@ -49,11 +49,10 @@ $(document).ready(function() {
   .done(function(data) {
     if(!data.success) {
       // Assume that user is not logged in
-
-      console.log(data);
-      
-      //window.location.href="login.html"
+      window.location.href="login.html"
     } else {
+      if(data.site == "admin")
+        window.location.href="admin.html"
       $(".site-info").html(data.site);
       $(".container").removeClass("hidden");
     }
