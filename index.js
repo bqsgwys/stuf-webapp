@@ -25,7 +25,7 @@ app.use("/upload",upload);
 
 app.use(express.static(__dirname + "/public"));
 
-var server = app.listen(3000,function(){
+var server = app.listen(5076,function(){
 	var host=server.address().address;
 	var post=server.address().port;
 	var str=('Server is running at http:'+host+post);
