@@ -11,6 +11,7 @@ router.use(session);
 router.get('/',function(req,res){
 		var site=req.session.site;
 		client.hget(site,'vote',function(err,vote){
+			if(!vote) vote=0;
 			client.hget(site,'dcount',function(error,dcnt){
 				var rest={};
 				rest.tot=parseInt(vote);
