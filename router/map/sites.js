@@ -35,6 +35,7 @@ router.get('/',function(req,res,next){
 router.get('/:id', function(req, res, next) {
   client.hgetall(req.params.id + "#info", (err, replinfo) => {
     if(err) return next(err);
+    else if(!replinfo) return res.sendStatus(404);
     else return res.send(replinfo);
   });
 });

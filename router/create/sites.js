@@ -17,6 +17,7 @@ router.use(function(req,res,next){
 });
 
 router.post('/',function(req,res,next){
+  console.log("name");
 	var user=req.body.username;
 	var pass=req.body.password;
 	var name=req.body.name;

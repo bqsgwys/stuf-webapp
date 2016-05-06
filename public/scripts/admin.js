@@ -14,16 +14,52 @@ var fields = [
 
 function setupValues(data) {
   fields.forEach(function(e) {
-    $("#user-" + e).val(data[e]);
+    $("#site-" + e).val(data[e]);
   });
 }
 
-function getValue() {
+function getValues() {
   var result = {};
   fields.forEach(function(e) {
-    result[e] = $("#user-" + e).val();
+    result[e] = $("#site-" + e).val();
   });
   return result;
+}
+
+function gotoModify(name) {
+  $(".panel").fadeOut(200);
+
+  setTimeout(function() {
+    $(".modify").fadeIn(200);
+    $("#site-not-found").hide();
+    $("#modify-form").hide();
+
+    $.get('/map/admin/' + name).done(function(data) {
+      setupValues(data);
+      $("#modify-form").fadeIn(200);
+    }).fail(function(data) {
+      $("#site-not-found").fadeIn(200);
+    });
+  }, 200);
+}
+
+function getList() {
+  $(".list .placeholder").show();
+  $(".site-list").hide();
+
+  $.get('/map/sites').then(function(data) {
+    var content = "<thead><th>摊位名</th><th>所有者</th><th>类别</th><th>分数</th><th>操作</th></thead><tbody>";
+
+    data.forEach(function(e) {
+      content += "<tr><td>" + e.name + "</td><td>" + e.class + "</td><td>" + e.category + "</td><td>" + e.score + '</td><td><span class="modify-link" onclick="gotoModify(' + e.site + ')">修改</td></tr>';
+    });
+
+    content += "</tbody>"
+    console.log(content);
+    $(".site-list").html(content);
+    $(".list .placeholder").fadeOut(200);
+    setTimeout(function() { $(".site-list").fadeIn(200); }, 200);
+  });
 }
 
 $(document).ready(function() {
@@ -40,41 +76,31 @@ $(document).ready(function() {
     }
   })
 
-  $("#site-btn").click(function() {
+  $("#list-btn").click(function() {
     $(".panel").fadeOut(200);
     setTimeout(function() {
-      $(".sites").fadeIn(200);
+      getList();
+      $(".list").fadeIn(200);
     }, 200);
   });
 
-  $("#user-btn").click(function() {
+  $("#new-btn").click(function() {
     $(".panel").fadeOut(200);
-    setTimeout(function() {
-      $(".users").fadeIn(200);
-    }, 200);
-  });
-
-  $("#user-search").click(function() {
-    $("#user-not-found").fadeOut(200);
-    $("#user-form").fadeOut(200);
-
-    currentTarget = $("#user-search-target").val();
-    $.get('/admin/' + currentTarget).done(function(data) {
-      setupValues(data);
-      $("#user-form").fadeIn(200);
-    }).fail(function(data) {
-      $("#user-not-found").fadeIn(200);
-    });
-  });
-
-  $("#user-add").click(function() {
-    $("#user-not-found").fadeOut(200);
-    $("#user-form").fadeOut(200);
-
     setTimeout(function() {
       setupValues({});
-      $("#user-form").fadeIn(200);
+      $("#site-not-found").hide();
+      $("#modify-form").show();
+      $(".modify").fadeIn(200);
     }, 200);
+  });
+
+  $("#form-submit").click(function() {
+    console.log(getValues());
+    $.post("/create/sites", getValues()).done(function() {
+      $("#list-btn").click();
+    }).fail(function() {
+      alert("提交失败!");
+    });
   });
 
   $("#logout").click(function() {

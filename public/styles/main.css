@@ -25,7 +25,26 @@ body {
   text-align: center;
 }
 
-input {
+.input-group {
+  position: relative;
+  display: inline-block;
+  padding-top: 20px;
+  margin: 20px auto;
+}
+
+.input-group label {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  line-height: 20px;
+  font-size: 14px;
+  text-align: left;
+  color: rgba(0,0,0,.54);
+}
+
+.input-group input, .input-group textarea {
   font-size: 24px;
   line-height: 30px;
   border: none;
@@ -33,9 +52,12 @@ input {
   outline: 0;
   border-bottom: rgba(0,0,0,.30) 1px solid;
   display: block;
-  margin: 20px auto;
 
   padding: 4px 8px;
+}
+
+.input-group textarea {
+  height: 4em;
 }
 
 button {
@@ -128,4 +150,28 @@ button.pressed {
 
 .panel {
   margin-top: 20px;
+}
+
+table {
+  margin: 0 auto;
+  border: rgba(0,0,0,.3) 1px solid;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+thead {
+  background: rgba(0,0,0,.12);
+}
+
+tr:nth-child(2n) {
+  background: rgba(0,0,0,.06);
+}
+
+td, th {
+  padding: 12px 20px;
+  text-align: left;
+}
+
+.modify-link {
+  cursor: pointer;
 }

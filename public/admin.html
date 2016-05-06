@@ -14,43 +14,76 @@
       管理
     </div>
     <div class="container hidden">
-      <button id="site-btn">
-        站点列表
+      <button id="list-btn">
+        活动列表
       </button>
-      <button id="user-btn">
-        站点修改
+      <button id="new-btn">
+        新建活动
+      </button>
+      <button id="upload">
+        批量上传
       </button>
       <button id="logout">
         登出
       </button>
     </div>
 
-    <div class="sites panel hidden">
+    <div class="list panel hidden">
       <div class="placeholder">加载中...</div>
+      <table class="site-list"></table>
     </div>
 
-    <div class="users panel hidden">
-      <div class="user-actions">
-        <input id="user-search-target" placeholder="修改 - 活动ID">
-        <button id="user-search">修改</button>
-        <button id="user-add">添加新活动</button>
-        <button id="user-upload">批量上传</button>
-      </div>
+    <div class="modify panel hidden">
+      <div id="modify-form">
+        <div class="input-group">
+          <label for="site-site">活动 ID (请保证无重复)</label>
+          <input id="site-site">
+        </div><br>
 
-      <div class="placeholder hidden" id="user-not-found">未找到该活动</div>
-      <div class="hidden" id="user-form">
-        <input id="user-username" placeholder="登录用户名">
-        <input id="user-password" placeholder="登录密码">
-        <input id="user-site" placeholder="活动 ID">
-        <input id="user-score" placeholder="参与分数">
-        <input id="user-class" placeholder="所属班级/社团">
-        <input id="user-category" placeholder="所属类别">
-        <input id="user-position" placeholder="地点">
-        <input id="user-description" placeholder="介绍">
-      </div>
-    </div>
+        <div class="input-group">
+          <label for="site-username">登录用户名</label>
+          <input id="site-username">
+        </div><br>
 
-    <div class="user-edit hidden">
+        <div class="input-group">
+          <label for="site-password">登录密码</label>
+          <input id="site-password">
+        </div><br>
+
+        <div class="input-group">
+          <label for="site-name">活动名</label>
+          <input id="site-name">
+        </div><br>
+
+        <div class="input-group">
+          <label for="site-score">参与者获得分数 (请填写一个数字)</label>
+          <input id="site-score">
+        </div><br>
+
+        <div class="input-group">
+          <label for="site-class">所属班级／社团</label>
+          <input id="site-class">
+        </div><br>
+
+        <div class="input-group">
+          <label for="site-category">所属类别</label>
+          <input id="site-category">
+        </div><br>
+        
+        <div class="input-group">
+          <label for="site-position">地点</label>
+          <input id="site-position">
+        </div><br>
+
+        <div class="input-group">
+          <label for="site-description">简介</label>
+          <textarea id="site-description" row="4"></textarea>
+        </div><br>
+        <button id="form-submit">提交</button>
+      </div>
+      <div class="site-not-found">
+        <div class="placeholder">未找到该活动</div>
+      </div>
     </div>
   </body>
 </html>
