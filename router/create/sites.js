@@ -31,7 +31,7 @@ router.post('/',function(req,res,next){
 	var coor=req.body.coordination;
 	client.hget(site+'#info',category,(err,repl)=>{
 		if(repl)
-			if(repl!=category){
+			if(repl!=cate){
 				res.send({"error":'Same site in different category'});
 				return ;
 			}
