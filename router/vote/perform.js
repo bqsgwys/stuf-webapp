@@ -23,6 +23,7 @@ router.get('/:user',function(req,res){
 			client.hset(site,user+'.vote',vote);
 			client.hincrby(site,'vote',vote);
 			client.hget(site,'vote',function(err,vote){
+				if(!vote) vote=0;
 				client.hget(site,'dcount',function(error,dcnt){
 					var rest={};
 					var logstr=user+' votes '+site+' for '+vote+' stars, and he got ';
