@@ -1,5 +1,6 @@
 var express = require('express');
 var cors = require('cors');
+var setlog=require('./router/lib/log');
 var fs = require('fs');
 var app = express();
 var map = require('./router/map/index');
@@ -27,5 +28,6 @@ app.use(express.static(__dirname + "/public"));
 var server = app.listen(3000,function(){
 	var host=server.address().address;
 	var post=server.address().port;
-	console.log('Server is running at http:%s:%s',host,post);
+	var str=('Server is running at http:'+host+post);
+	setlog('server.log',str);
 });
